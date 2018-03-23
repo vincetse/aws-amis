@@ -1,0 +1,21 @@
+language: python
+python:
+- "3.6"
+env:
+  global:
+  - AWS_REGION=us-east-1
+  - AWS_ACCESS_KEY_ID=AKIAISWLJSZ6EVAL2G6Q
+  - secure: "S8ZF/CfMJBOB/8xqArfsId2ATYUQcGjXBA+s+3CkJp/OMh1Jxtn0FfuFAT5Cfem6K9WXSjGYJ5e5Tdh09psOYHkVMsAdHnV2L2SDLIbNpzbkNBcbrGNngBLOvBw5P45zN17rE1/QtkWrGHHyYrwHAw538j/VAgr/+30MgUK/wb5JipUW6H80SLNWLZVqY25X8yYq6xLAv8BCiAFeC5jGMRL2+51rdrDvJ7KaFmmh62kQzMY3lfg2nI1JaQQW4io3srOm1TXxrwqTJcqs0pIABovfctpiwo93Jgi+ieQp3nbJHyyMJAK13Isz265QmLQkdv1FYAUy8B4+k66OgqGji23q7mAdNVaL6oH3ddwF+Asy3I9/jbp4p7nrupCMs3OkJ6CS0Xr2WdjzVfFc+hHK24z9Km3Tv1g+hTu7ygVYhdDLVerWnYex6ba44YI25R3rOOpdPRBK8HOjZDPfo9igu/clv6G5BAnW6kkGoivYgGUk1LrJlh/cBexTc9K5/Mzh9G1yX7a+tYjbjhxr1N5Htam5yM4vTRztcawJphA3zdB0etxalIIp9YnYU7fsQiZY1B2jl4GQeYMWJgsLVliynBwCxcb0pFGxlkzlMOIgvq89UGipcgKtmbTU3lYLzixRr4Zez5ZpiBLiNrvNMOkttkuBSKl94AyfpEe+fgpaplE="
+  matrix:
+  - DISTRO=amazon-linux
+    AMI=ami-1853ac65
+  - DISTRO=ubuntu/xenial
+    AMI=ami-66506c1c
+  - DISTRO=debian/jessie
+    AMI=ami-cb4b94dd
+  - DISTRO=debian/stretch
+    AMI=ami-22be575f
+install:
+- pip install awscli
+script:
+- aws --region ${AWS_REGION} help
