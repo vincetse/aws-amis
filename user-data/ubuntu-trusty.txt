@@ -1,0 +1,10 @@
+#cloud-config
+apt_update: true
+apt_upgrade: all
+apt_reboot_if_required: true
+
+packages:
+- python
+
+runcmd:
+- pip install --upgrade awscli

@@ -1,0 +1,128 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  Creating the dependencies for building EC2 AMIs.
+
+Parameters:
+  PackerUserName:
+    Description: "Name of Packer user"
+    Type: "String"
+    MinLength: 1
+
+Mappings:
+  Settings:
+    us-east-1:
+      Name: "ami-builder"
+      AZ: "us-east-1a"
+
+Resources:
+
+  ################################################################################
+  VPC:
+    Type: "AWS::EC2::VPC"
+    Properties:
+      CidrBlock: "10.10.10.0/24"
+      EnableDnsSupport: true
+      EnableDnsHostnames: false
+      InstanceTenancy: "default"
+      Tags:
+      - Key: "Name"
+        Value: !Sub "${AWS::StackName}-vpc"
+
+  InternetGateway:
+    Type: "AWS::EC2::InternetGateway"
+    Properties:
+      Tags:
+      - Key: "Name"
+        Value: !Sub "${AWS::StackName}-igw"
+
+  VPCGatewayAttachment:
+    Type: "AWS::EC2::VPCGatewayAttachment"
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+    DependsOn:
+    - VPC
+    - InternetGateway
+
+  DefaultRouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+      - Key: "Name"
+        Value: !Sub "${AWS::StackName}-default-rt"
+    DependsOn:
+    - VPC
+
+  DefaultRoute:
+    Type: "AWS::EC2::Route"
+    Properties:
+      RouteTableId: !Ref DefaultRouteTable
+      DestinationCidrBlock: "0.0.0.0/0"
+      GatewayId: !Ref InternetGateway
+    DependsOn:
+    - InternetGateway
+    - DefaultRouteTable
+
+  ################################################################################
+  Subnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !FindInMap ["Settings", !Ref "AWS::Region", "AZ"]
+      CidrBlock: "10.10.10.0/24"
+      MapPublicIpOnLaunch: true
+      Tags:
+      - Key: "Name"
+        Value: !Sub "${AWS::StackName}-subnet"
+    DependsOn:
+    - VPC
+
+  TableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId: !Ref Subnet
+      RouteTableId: !Ref DefaultRouteTable
+    DependsOn:
+    - Subnet
+    - DefaultRouteTable
+
+  ################################################################################
+  User:
+    Type: "AWS::IAM::User"
+    Properties:
+      ManagedPolicyArns:
+      - "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
+      Path: "/"
+      UserName: !Ref PackerUserName
+
+  AccessKey:
+    Type: "AWS::IAM::AccessKey"
+    Properties:
+      Status: "Active"
+      UserName: !Ref PackerUserName
+    DependsOn:
+    - User
+
+Outputs:
+
+  VpcId:
+    Description: "AMI builder VPC ID"
+    Value: !Ref VPC
+    Export:
+      Name: !Sub "${AWS::StackName}-VpcId"
+
+  SubnetId:
+    Description: "AMI builder subnet ID"
+    Value: !Ref Subnet
+    Export:
+      Name: !Sub "${AWS::StackName}-SubnetId"
+
+  PackerCredentials:
+    Description: "Credentials for Packer user"
+    Value:
+      Fn::Join:
+      - " "
+      - - !Ref PackerUserName
+        - !Ref AccessKey
+        - !GetAtt AccessKey.SecretAccessKey

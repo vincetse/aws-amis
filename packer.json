@@ -1,0 +1,29 @@
+{
+  "variables": {
+    "ami_name": "",
+    "ami_version": "",
+    "instance_type": "t2.micro",
+    "source_ami": "",
+    "ssh_username": "",
+    "subnet_id": "",
+    "vpc_id": "",
+    "region": "",
+    "user_data_file": ""
+  },
+  "builders": [{
+    "type": "amazon-ebs",
+    "spot_price": "0.0115",
+    "instance_type": "{{user `instance_type`}}",
+    "ssh_username": "{{user `ssh_username`}}",
+    "ami_name": "{{user `ami_name`}}",
+    "source_ami": "{{user `source_ami`}}",
+    "subnet_id": "{{user `subnet_id`}}",
+    "vpc_id": "{{user `vpc_id`}}",
+    "region": "{{user `region`}}",
+    "user_data_file": "{{user `user_data_file`}}",
+    "tags": {
+      "Name": "{{user `ami_name`}}",
+      "Version": "{{user `ami_version`}}"
+    }
+  }]
+}
