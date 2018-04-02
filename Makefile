@@ -16,35 +16,35 @@ amazon-linux:
 		ami_name=hvm/amazon-linux/2017.09.1 \
 		ssh_username=ec2-user \
 		source_ami=ami-1853ac65 \
-		user_data_file=user-data/$@.txt
+		target=amazon-linux
 
 ubuntu-trusty:
 	$(MAKE) build \
 		ami_name=hvm/ubuntu/trusty \
 		ssh_username=ubuntu \
 		source_ami=ami-3073884d \
-		user_data_file=user-data/$@.txt
+		target=debian
 
 ubuntu-xenial:
 	$(MAKE) build \
 		ami_name=hvm/ubuntu/xenial \
 		ssh_username=ubuntu \
 		source_ami=ami-b46295c9 \
-		user_data_file=user-data/$@.txt
+		target=debian
 
 debian-jessie:
 	$(MAKE) build \
 		ami_name=hvm/debian/jessie \
 		ssh_username=admin \
 		source_ami=ami-cb4b94dd \
-		user_data_file=user-data/$@.txt
+		target=debian
 
 debian-stretch:
 	$(MAKE) build \
 		ami_name=hvm/debian/stretch \
 		ssh_username=admin \
 		source_ami=ami-22be575f \
-		user_data_file=user-data/$@.txt
+		target=debian
 
 build:
 	packer build \
@@ -54,7 +54,7 @@ build:
 		-var "ssh_username=$(ssh_username)" \
 		-var "subnet_id=$(subnet_id)" \
 		-var "vpc_id=$(vpc_id)" \
-		-var "user_data_file=$(user_data_file)" \
+		-var "target=$(target)" \
 		packer.json
 
 list:

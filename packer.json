@@ -8,7 +8,7 @@
     "subnet_id": "",
     "vpc_id": "",
     "region": "",
-    "user_data_file": ""
+    "target": ""
   },
   "builders": [{
     "type": "amazon-ebs",
@@ -20,10 +20,19 @@
     "subnet_id": "{{user `subnet_id`}}",
     "vpc_id": "{{user `vpc_id`}}",
     "region": "{{user `region`}}",
-    "user_data_file": "{{user `user_data_file`}}",
     "tags": {
       "Name": "{{user `ami_name`}}",
       "Version": "{{user `ami_version`}}"
     }
-  }]
+  }],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "./provisioning/00-{{user `target`}}.sh"
+    },
+    {
+      "type": "shell",
+      "script": "./provisioning/01-iam-ec2-ssh.sh"
+    }
+  ]
 }
