@@ -42,7 +42,15 @@ function configure_sshd()
 # aws-ec2-ssh
 AuthorizedKeysCommand ${install_dir}/authorized_keys_command.sh
 AuthorizedKeysCommandUser nobody
+PermitRootLogin no
+UseDNS no
 END
+}
+
+function cleanup()
+{
+  shred -u /etc/ssh/*_key /etc/ssh/*_key.pub
+  passwd -l root
 }
 
 function main()
@@ -52,6 +60,7 @@ function main()
   configure_crontab "${install_dir}"
   configure_sshd "${install_dir}"
   ${install_dir}/import_users.sh
+  cleanup
 }
 
 main
