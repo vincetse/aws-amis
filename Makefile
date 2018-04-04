@@ -1,13 +1,5 @@
-stack_name ?= ami-builder
-region ?= us-east-1
-template ?= iam.yml
-packer_username ?= packer
-subnet_id ?= subnet-0c071568
-vpc_id ?= vpc-d1008aaa
+include config.mk
 ami_version ?= $(shell date -u +%Y%m%d.%H%M)
-
-AWS = aws --region $(region)
-EC2 = $(AWS) ec2
 
 all: amazon-linux ubuntu-trusty ubuntu-xenial debian-jessie debian-stretch
 

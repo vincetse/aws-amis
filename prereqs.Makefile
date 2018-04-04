@@ -1,10 +1,6 @@
-stack_name ?= ami-builder
-region ?= us-east-1
+include config.mk
 template ?= prereqs.yml
-packer_username ?= packer
 
-AWS = aws --region $(region)
-CF = $(AWS) cloudformation
 TEMPLATE = --template-body file://$(template)
 STACK = --stack-name $(stack_name)
 
