@@ -35,7 +35,7 @@ debian-stretch:
 	$(MAKE) build \
 		ami_name=hvm/debian/stretch \
 		ssh_username=admin \
-		source_ami=ami-22be575f \
+		source_ami=ami-67e43818 \
 		target=debian
 
 build:
