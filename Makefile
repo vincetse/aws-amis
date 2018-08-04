@@ -67,6 +67,12 @@ deregister-image:
 delete-snapshot:
 	$(EC2) $@ --snapshot-id $(snapshot)
 
+delete-key-pair:
+	$(EC2) $@ --key-name $(keyname)
+
+delete-security-group:
+	$(EC2) $@ --group-id $(sgid)
+
 delete-all:
 	$(eval account_id := $(shell aws sts get-caller-identity --output text --query 'Account'))
 	$(eval amis := $(shell $(EC2) --output text describe-images --filters Name=owner-id,Values=$(account_id) --query 'Images[].ImageId'))
@@ -76,6 +82,14 @@ delete-all:
 	$(eval snapshots := $(shell $(EC2) --output text describe-snapshots --filters Name=owner-id,Values=$(account_id) --query 'Snapshots[].SnapshotId'))
 	@for snapshot in $(snapshots); do \
 		$(MAKE) delete-snapshot snapshot=$${snapshot}; \
+	done
+	$(eval keypairs := $(shell $(EC2) --output text describe-key-pairs --query "KeyPairs[?starts_with(KeyName,'packer_')].KeyName"))
+	@for keypair in $(keypairs); do \
+		$(MAKE) delete-key-pair keyname=$${keypair}; \
+	done
+	$(eval sgids := $(shell $(EC2) --output text describe-security-groups --query "SecurityGroups[?starts_with(GroupName, 'packer_')].GroupId"))
+	@for sgid in $(sgids); do \
+		$(MAKE) delete-security-group sgid=$${sgid}; \
 	done
 
 spot_price ?= 0.0115
