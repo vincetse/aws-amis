@@ -5,23 +5,30 @@ all: amazon-linux ubuntu-trusty ubuntu-xenial debian-jessie debian-stretch
 
 amazon-linux:
 	$(MAKE) build \
-		ami_name=hvm/amazon-linux/2017.09.1 \
+		ami_name=hvm/amazon-linux/2018.03.0.20180622 \
 		ssh_username=ec2-user \
-		source_ami=ami-1853ac65 \
+		source_ami=ami-f316478c \
 		target=amazon-linux
 
 ubuntu-trusty:
 	$(MAKE) build \
 		ami_name=hvm/ubuntu/trusty \
 		ssh_username=ubuntu \
-		source_ami=ami-3073884d \
+		source_ami=ami-817bf7fe \
 		target=debian
 
 ubuntu-xenial:
 	$(MAKE) build \
 		ami_name=hvm/ubuntu/xenial \
 		ssh_username=ubuntu \
-		source_ami=ami-b46295c9 \
+		source_ami=ami-077b0e78 \
+		target=debian
+
+ubuntu-bionic:
+	$(MAKE) build \
+		ami_name=hvm/ubuntu/bionic \
+		ssh_username=ubuntu \
+		source_ami=ami-6061141f \
 		target=debian
 
 debian-jessie:
@@ -35,7 +42,7 @@ debian-stretch:
 	$(MAKE) build \
 		ami_name=hvm/debian/stretch \
 		ssh_username=admin \
-		source_ami=ami-67e43818 \
+		source_ami=ami-b592abca \
 		target=debian
 
 build:

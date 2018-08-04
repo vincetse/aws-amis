@@ -10,6 +10,7 @@ env:
   - DISTRO=amazon-linux
   - DISTRO=ubuntu-trusty
   - DISTRO=ubuntu-xenial
+  - DISTRO=ubuntu-bionic
   - DISTRO=debian-jessie
   - DISTRO=debian-stretch
 install:
