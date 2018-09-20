@@ -3,7 +3,7 @@ include config.mk
 spot_price ?= 0.0115
 instance_type ?= t2.micro
 keypair ?= vtse.id_rsa.pub
-sg_id ?= sg-07ce9171
+sg_id ?= sg-0645bb36a95682539
 az ?= us-east-1a
 
 launch:

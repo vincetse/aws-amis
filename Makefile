@@ -5,30 +5,30 @@ all: amazon-linux ubuntu-trusty ubuntu-xenial debian-jessie debian-stretch
 
 amazon-linux:
 	$(MAKE) build \
-		ami_name=hvm/amazon-linux/2018.03.0.20180622 \
+		ami_name=hvm/amazon-linux/2018.03.0.20180811 \
 		ssh_username=ec2-user \
-		source_ami=ami-f316478c \
+		source_ami=ami-0c7d8678e345b414c \
 		target=amazon-linux
 
 ubuntu-trusty:
 	$(MAKE) build \
 		ami_name=hvm/ubuntu/trusty \
 		ssh_username=ubuntu \
-		source_ami=ami-817bf7fe \
+		source_ami=ami-025fba434dad5b3e3 \
 		target=debian
 
 ubuntu-xenial:
 	$(MAKE) build \
 		ami_name=hvm/ubuntu/xenial \
 		ssh_username=ubuntu \
-		source_ami=ami-077b0e78 \
+		source_ami=ami-068ab34816099a0a9 \
 		target=debian
 
 ubuntu-bionic:
 	$(MAKE) build \
 		ami_name=hvm/ubuntu/bionic \
 		ssh_username=ubuntu \
-		source_ami=ami-6061141f \
+		source_ami=ami-05fb04e2687120d6b \
 		target=debian
 
 debian-jessie:
@@ -42,7 +42,7 @@ debian-stretch:
 	$(MAKE) build \
 		ami_name=hvm/debian/stretch \
 		ssh_username=admin \
-		source_ami=ami-b592abca \
+		source_ami=ami-0ad001cb48e7f2a56 \
 		target=debian
 
 build:
@@ -91,24 +91,3 @@ delete-all:
 	@for sgid in $(sgids); do \
 		$(MAKE) delete-security-group sgid=$${sgid}; \
 	done
-
-spot_price ?= 0.0115
-instance_type ?= t2.micro
-keypair ?= vtse.id_rsa.pub
-sg_id ?= sg-07ce9171
-az ?= us-east-1a
-launch-spot:
-	$(EC2) request-spot-instances \
-		--spot-price $(spot_price) \
-		--instance-count 1 \
-		--type one-time \
-		--launch-specification '{"ImageId":"$(ami_id)","KeyName":"$(keypair)","InstanceType":"$(instance_type)","Placement":{"AvailabilityZone":"$(az)"},"IamInstanceProfile":{"Name":"SshReadIam"},"NetworkInterfaces":[{"DeviceIndex":0,"SubnetId":"$(subnet_id)","Groups":["$(sg_id)"],"AssociatePublicIpAddress":true}]}'
-
-describe-spot:
-	$(eval instance_id := $(shell $(EC2) describe-spot-instance-requests --spot-instance-request-ids $(request_id) --query SpotInstanceRequests[0].InstanceId --output text))
-	$(EC2) describe-instances --instance-ids $(instance_id)
-
-cancel-spot:
-	$(eval instance_id := $(shell $(EC2) describe-spot-instance-requests --spot-instance-request-ids $(request_id) --query SpotInstanceRequests[0].InstanceId --output text))
-	$(EC2) cancel-spot-instance-requests --spot-instance-request-ids $(request_id)
-	$(EC2) terminate-instances --instance-ids $(instance_id)
