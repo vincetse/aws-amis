@@ -8,7 +8,6 @@ env:
   - secure: "AjgivCI+7YwH6TqEmPXQhKnR/yF+b+kJOPDnsfKR6rCZrOoycvPxigu0bciHE0119YQ/5PJiwBlhdB6NeZqi2DhWR5j/JmvvPmhoBQbaxp8PNIrwWcrXixhazdRisc245EoT+zMgyV/hHazLXC8fyMwNrvuV9JrmalPCogvE+3DFvZbNBzG5QWz+ZpDAKg+nWutkkaAtQeEMu1U7vD8G90USkOdX+Od3qUzEmevqDstjsKYxmjFEkttcD9c3E884W/aDOnLg0vhH1aj3ZJQ1unv1vNA4Lv8MWGbU9B6oBZ6XfgRMXw2oRgZojaPSLLLwK/Q+n0Uac+O8vudfdf/ZOC4sIQFo5fdDVSUyL8ODe7ih3dmtXafzGTyx9rizJ4IbaNmUI9LiXwBF6cvYmyOrnJzvtzF3xlnDIjzWDQO8ufwkUOav9azJ5a4ITb7mcT236YxAp8OtaxK+/pRYBabkQpnPdaSTIcJz0A7vTXCvUvHcx9obp3B5gTEmwq+xW8ZDyXGw9rm9jK53cgl3sjsntbtaSdVPmJg0fuprXW7N+ETev2vJ3wrrNSsVzisI/Df+eAIAf3Ckr3/F7IY9xSJHL4cDejUSj/COk3vDAvIcRiDAMoLOTFZ6yNIzEYl0p4Mt4aIRL3CuRJ995GdzFIB9/V8w15KO8b+Q2u62tGAb46g="
   matrix:
   - DISTRO=amazon-linux
-  - DISTRO=ubuntu-trusty
   - DISTRO=ubuntu-xenial
   - DISTRO=ubuntu-bionic
   - DISTRO=debian-jessie

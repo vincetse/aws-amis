@@ -1,7 +1,7 @@
 include config.mk
 ami_version ?= $(shell date -u +%Y%m%d.%H%M)
 
-all: amazon-linux ubuntu-trusty ubuntu-xenial debian-jessie debian-stretch
+all: amazon-linux ubuntu-xenial debian-jessie debian-stretch
 
 amazon-linux:
 	$(MAKE) build \
