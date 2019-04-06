@@ -7,7 +7,7 @@ amazon-linux:
 	$(MAKE) build \
 		ami_name=hvm/amazon-linux/2018.03.0.20181129 \
 		ssh_username=ec2-user \
-		source_ami=ami-0f78717cb15ab06bd \
+		source_ami=ami-02c6024b3d5467e4a \
 		target=amazon-linux
 
 ubuntu-xenial:
