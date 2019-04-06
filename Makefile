@@ -14,7 +14,7 @@ ubuntu-xenial:
 	$(MAKE) build \
 		ami_name=hvm/ubuntu/xenial \
 		ssh_username=ubuntu \
-		source_ami=ami-092d0d014b7b31a08 \
+		source_ami=ami-035314e0fd9adb58b \
 		target=debian
 
 ubuntu-bionic:
