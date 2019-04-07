@@ -1,7 +1,7 @@
 include config.mk
 ami_version ?= $(shell date -u +%Y%m%d.%H%M)
 
-all: amazon-linux ubuntu-xenial debian-jessie debian-stretch
+all: amazon-linux ubuntu-xenial ubuntu-bionic debian-stretch
 
 amazon-linux:
 	$(MAKE) build \
@@ -22,13 +22,6 @@ ubuntu-bionic:
 		ami_name=hvm/ubuntu/bionic \
 		ssh_username=ubuntu \
 		source_ami=ami-07e101c2aebc37691 \
-		target=debian
-
-debian-jessie:
-	$(MAKE) build \
-		ami_name=hvm/debian/jessie \
-		ssh_username=admin \
-		source_ami=ami-cb4b94dd \
 		target=debian
 
 debian-stretch:
